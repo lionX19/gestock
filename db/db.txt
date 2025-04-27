@@ -1,0 +1,289 @@
+-- Création de la table Produits
+CREATE TABLE Produits (
+    id_produit INTEGER PRIMARY KEY AUTOINCREMENT,
+    reference TEXT NOT NULL UNIQUE,
+    nom TEXT NOT NULL,
+    categorie TEXT NOT NULL,
+    prix_unitaire REAL NOT NULL,
+    quantite_stock INTEGER NOT NULL,
+    seuil_reapprovisionnement INTEGER NOT NULL
+);
+
+-- Création de la table Mouvements
+CREATE TABLE Mouvements (
+    id_mouvement INTEGER PRIMARY KEY AUTOINCREMENT,
+    id_produit INTEGER NOT NULL,
+    type_mouvement TEXT NOT NULL CHECK (type_mouvement IN ('ENTREE', 'SORTIE')),
+    quantite INTEGER NOT NULL,
+    date_mouvement DATETIME NOT NULL,
+    commentaire TEXT,
+    destination_motif TEXT,
+    FOREIGN KEY (id_produit) REFERENCES Produits(id_produit) ON DELETE CASCADE
+);
+
+
+-- Création de la table produits avec la structure fournie
+CREATE TABLE IF NOT EXISTS produits (
+    id_produit INT(11) AUTO_INCREMENT PRIMARY KEY,
+    reference TEXT NOT NULL,
+    nom TEXT NOT NULL,
+    categorie TEXT NOT NULL,
+    prix_unitaire DOUBLE NOT NULL,
+    quantite_stock INT(11) NOT NULL,
+    seuil_reapprovisionnement INT(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- Suppression des données existantes (si nécessaire)
+TRUNCATE TABLE produits;
+
+-- Vider les tables pour éviter les doublons (facultatif, commentez si non souhaité)
+TRUNCATE TABLE Mouvements;
+TRUNCATE TABLE Produits;
+
+-- Insérer les produits
+INSERT INTO Produits (reference, nom, categorie, prix_unitaire, quantite_stock, seuil_reapprovisionnement) VALUES
+('FRU001', 'Pomme Golden (kg)', 'Fruits', 1250.00, 85, 20),
+('FRU002', 'Banane Plantain (kg)', 'Fruits', 800.00, 120, 30),
+('FRU003', 'Orange Valencia (kg)', 'Fruits', 950.00, 68, 25),
+('FRU004', 'Mangue Kent (pièce)', 'Fruits', 650.00, 45, 15),
+('FRU005', 'Ananas (pièce)', 'Fruits', 1500.00, 32, 10),
+('FRU006', 'Papaye (pièce)', 'Fruits', 1200.00, 25, 8),
+('FRU007', 'Avocat (kg)', 'Fruits', 2300.00, 40, 15),
+('FRU008', 'Citron (kg)', 'Fruits', 1100.00, 55, 20),
+('FRU009', 'Pastèque (pièce)', 'Fruits', 2500.00, 18, 5),
+('FRU010', 'Goyave (kg)', 'Fruits', 1400.00, 30, 10),
+('LEG001', 'Tomate (kg)', 'Légumes', 850.00, 95, 25),
+('LEG002', 'Oignon (kg)', 'Légumes', 700.00, 150, 40),
+('LEG003', 'Carotte (kg)', 'Légumes', 650.00, 85, 30),
+('LEG004', 'Aubergine (kg)', 'Légumes', 900.00, 48, 15),
+('LEG005', 'Poivron (kg)', 'Légumes', 1100.00, 42, 15),
+('LEG006', 'Concombre (kg)', 'Légumes', 750.00, 60, 20),
+('LEG007', 'Piment (kg)', 'Légumes', 1250.00, 35, 10),
+('LEG008', 'Gombo (kg)', 'Légumes', 1500.00, 28, 10),
+('LEG009', 'Chou (pièce)', 'Légumes', 800.00, 45, 15),
+('LEG010', 'Laitue (pièce)', 'Légumes', 500.00, 30, 10),
+('BOI001', 'Eau minérale 1.5L', 'Boissons', 350.00, 200, 50),
+('BOI002', 'Coca-Cola 1.5L', 'Boissons', 750.00, 150, 40),
+('BOI003', 'Fanta Orange 1.5L', 'Boissons', 750.00, 120, 35),
+('BOI004', 'Jus de fruits tropical 1L', 'Boissons', 1200.00, 85, 20),
+('BOI005', 'Jus d\'ananas 1L', 'Boissons', 1100.00, 70, 20),
+('BOI006', 'Jus de gingembre 500ml', 'Boissons', 800.00, 45, 15),
+('BOI007', 'Bissap 1L', 'Boissons', 900.00, 60, 20),
+('BOI008', 'Sprite 1.5L', 'Boissons', 750.00, 110, 30),
+('BOI009', 'Bière locale 33cl', 'Boissons Alcoolisées', 500.00, 180, 50),
+('BOI010', 'Vin rouge 75cl', 'Boissons Alcoolisées', 3500.00, 45, 10),
+('BOI011', 'Whisky 75cl', 'Boissons Alcoolisées', 12000.00, 25, 5),
+('BOI012', 'Champagne 75cl', 'Boissons Alcoolisées', 15000.00, 15, 5),
+('CER001', 'Riz local (5kg)', 'Céréales', 3500.00, 120, 30),
+('CER002', 'Riz importé (5kg)', 'Céréales', 4500.00, 85, 25),
+('CER003', 'Maïs (kg)', 'Céréales', 600.00, 200, 50),
+('CER004', 'Mil (kg)', 'Céréales', 750.00, 150, 40),
+('CER005', 'Sorgho (kg)', 'Céréales', 700.00, 100, 30),
+('CER006', 'Fonio (kg)', 'Céréales', 1200.00, 50, 15),
+('FEC001', 'Igname (kg)', 'Féculents', 850.00, 80, 20),
+('FEC002', 'Manioc (kg)', 'Féculents', 500.00, 95, 25),
+('FEC003', 'Patate douce (kg)', 'Féculents', 650.00, 70, 20),
+('FEC004', 'Taro (kg)', 'Féculents', 900.00, 55, 15),
+('FEC005', 'Banane plantain (kg)', 'Féculents', 800.00, 65, 20),
+('LAI001', 'Lait frais 1L', 'Produits Laitiers', 1300.00, 50, 15),
+('LAI002', 'Lait en poudre 400g', 'Produits Laitiers', 2800.00, 75, 20),
+('LAI003', 'Yaourt nature 125g', 'Produits Laitiers', 350.00, 120, 30),
+('LAI004', 'Yaourt aux fruits 125g', 'Produits Laitiers', 400.00, 90, 25),
+('LAI005', 'Fromage local 250g', 'Produits Laitiers', 1500.00, 35, 10),
+('LAI006', 'Beurre 250g', 'Produits Laitiers', 1800.00, 40, 15),
+('LAI007', 'Crème fraîche 200ml', 'Produits Laitiers', 1600.00, 30, 10),
+('VIA001', 'Poulet entier (kg)', 'Viandes', 2500.00, 45, 10),
+('VIA002', 'Bœuf (kg)', 'Viandes', 3500.00, 35, 10),
+('VIA003', 'Mouton (kg)', 'Viandes', 4000.00, 28, 8),
+('VIA004', 'Porc (kg)', 'Viandes', 2800.00, 30, 10),
+('VIA005', 'Lapin (kg)', 'Viandes', 3200.00, 15, 5),
+('POI001', 'Tilapia frais (kg)', 'Poissons', 3000.00, 40, 10),
+('POI002', 'Carpe (kg)', 'Poissons', 3200.00, 35, 10),
+('POI003', 'Capitaine (kg)', 'Poissons', 4500.00, 25, 8),
+('POI004', 'Maquereau (kg)', 'Poissons', 2800.00, 45, 15),
+('POI005', 'Sardines (kg)', 'Poissons', 2200.00, 50, 15),
+('POI006', 'Thon en conserve 400g', 'Poissons', 1800.00, 60, 20),
+('EPI001', 'Huile de palme 1L', 'Huiles', 1200.00, 90, 25),
+('EPI002', 'Huile d\'arachide 1L', 'Huiles', 1500.00, 75, 20),
+('EPI003', 'Sucre en poudre 1kg', 'Épicerie', 800.00, 120, 30),
+('EPI004', 'Sel 1kg', 'Épicerie', 400.00, 150, 40),
+('EPI005', 'Café moulu 250g', 'Épicerie', 1800.00, 65, 20),
+('EPI006', 'Thé vert 100g', 'Épicerie', 1200.00, 55, 15),
+('EPI007', 'Chocolat en poudre 500g', 'Épicerie', 2500.00, 45, 15),
+('EPI008', 'Pâtes alimentaires 500g', 'Épicerie', 650.00, 110, 30),
+('EPI009', 'Farine de blé 1kg', 'Épicerie', 750.00, 90, 25),
+('EPI010', 'Conserve de tomate 400g', 'Épicerie', 550.00, 130, 35),
+('CON001', 'Poivre noir 100g', 'Épices', 950.00, 70, 20),
+('CON002', 'Piment séché 100g', 'Épices', 850.00, 65, 20),
+('CON003', 'Gingembre moulu 50g', 'Épices', 700.00, 60, 15),
+('CON004', 'Ail en poudre 50g', 'Épices', 750.00, 55, 15),
+('CON005', 'Curcuma 50g', 'Épices', 800.00, 50, 15),
+('CON006', 'Bouillon cube (boîte de 10)', 'Condiments', 600.00, 150, 40),
+('CON007', 'Moutarde 200g', 'Condiments', 900.00, 45, 15),
+('CON008', 'Mayonnaise 250ml', 'Condiments', 1100.00, 60, 20),
+('CON009', 'Ketchup 300ml', 'Condiments', 1000.00, 65, 20),
+('CON010', 'Vinaigre 500ml', 'Condiments', 800.00, 70, 20),
+('HYG001', 'Savon de toilette', 'Hygiène Corporelle', 450.00, 200, 50),
+('HYG002', 'Dentifrice 125ml', 'Hygiène Corporelle', 850.00, 120, 30),
+('HYG003', 'Shampooing 250ml', 'Hygiène Corporelle', 1500.00, 80, 20),
+('HYG004', 'Gel douche 300ml', 'Hygiène Corporelle', 1300.00, 95, 25),
+('HYG005', 'Déodorant 50ml', 'Hygiène Corporelle', 1100.00, 85, 25),
+('HYG006', 'Papier toilette (pack 6)', 'Hygiène Maison', 1800.00, 110, 30),
+('HYG007', 'Lessive en poudre 1kg', 'Hygiène Maison', 1600.00, 90, 25),
+('HYG008', 'Eau de Javel 1L', 'Hygiène Maison', 700.00, 80, 20),
+('HYG009', 'Liquide vaisselle 500ml', 'Hygiène Maison', 950.00, 75, 20),
+('HYG010', 'Serviettes hygiéniques', 'Hygiène Corporelle', 1200.00, 90, 25),
+('SNA001', 'Biscuits sucrés 250g', 'Snacks', 850.00, 120, 30),
+('SNA002', 'Chips de plantain 100g', 'Snacks', 650.00, 90, 25),
+('SNA003', 'Arachides grillées 200g', 'Snacks', 750.00, 85, 25),
+('SNA004', 'Chocolat tablette 100g', 'Confiseries', 1200.00, 65, 20),
+('SNA005', 'Bonbons assortis 150g', 'Confiseries', 600.00, 95, 25),
+('SNA006', 'Chewing-gum (pack)', 'Confiseries', 300.00, 150, 40),
+('SNA007', 'Barre céréalière 40g', 'Snacks', 450.00, 75, 20),
+('SNA008', 'Biscuits salés 200g', 'Snacks', 800.00, 70, 20),
+('MEN001', 'Assiette (lot de 6)', 'Vaisselle', 4500.00, 30, 8),
+('MEN002', 'Verres (lot de 6)', 'Vaisselle', 3800.00, 35, 10),
+('MEN003', 'Marmite aluminium', 'Ustensiles', 6500.00, 15, 5),
+('MEN004', 'Poêle antiadhésive', 'Ustensiles', 5500.00, 20, 5),
+('MEN005', 'Thermos 1L', 'Ustensiles', 4000.00, 25, 8),
+('MEN006', 'Couverts (set 24 pièces)', 'Vaisselle', 7500.00, 18, 5),
+('MEN007', 'Balai', 'Entretien', 1500.00, 40, 10),
+('MEN008', 'Serpillière', 'Entretien', 1200.00, 45, 15),
+('MEN009', 'Ampoule LED', 'Électricité', 950.00, 60, 20),
+('MEN010', 'Piles AA (pack 4)', 'Électricité', 1100.00, 80, 25);
+
+-- Insérer les mouvements correspondants
+INSERT INTO Mouvements (id_produit, type_mouvement, quantite, date_mouvement, commentaire, destination_motif)
+SELECT 
+    id_produit,
+    'ENTREE' AS type_mouvement,
+    quantite_stock AS quantite,
+    '2025-04-27 00:00:00' AS date_mouvement,
+    'Stock initial' AS commentaire,
+    'Approvisionnement initial' AS destination_motif
+FROM Produits
+WHERE reference IN (
+    'FRU001','FRU002','FRU003','FRU004','FRU005','FRU006','FRU007','FRU008','FRU009','FRU010',
+    'LEG001','LEG002','LEG003','LEG004','LEG005','LEG006','LEG007','LEG008','LEG009','LEG010',
+    'BOI001','BOI002','BOI003','BOI004','BOI005','BOI006','BOI007','BOI008','BOI009','BOI010','BOI011','BOI012',
+    'CER001','CER002','CER003','CER004','CER005','CER006',
+    'FEC001','FEC002','FEC003','FEC004','FEC005',
+    'LAI001','LAI002','LAI003','LAI004','LAI005','LAI006','LAI007',
+    'VIA001','VIA002','VIA003','VIA004','VIA005',
+    'POI001','POI002','POI003','POI004','POI005','POI006',
+    'EPI001','EPI002','EPI003','EPI004','EPI005','EPI006','EPI007','EPI008','EPI009','EPI010',
+    'CON001','CON002','CON003','CON004','CON005','CON006','CON007','CON008','CON009','CON010',
+    'HYG001','HYG002','HYG003','HYG004','HYG005','HYG006','HYG007','HYG008','HYG009','HYG010',
+    'SNA001','SNA002','SNA003','SNA004','SNA005','SNA006','SNA007','SNA008',
+    'MEN001','MEN002','MEN003','MEN004','MEN005','MEN006','MEN007','MEN008','MEN009','MEN010'
+);
+-- Requête pour afficher l'inventaire avec alertes de stock
+SELECT 
+    p.id_produit AS 'ID',
+    p.reference AS 'Référence',
+    p.nom AS 'Nom du produit',
+    p.categorie AS 'Catégorie',
+    CONCAT(FORMAT(p.prix_unitaire, 0), ' FCFA') AS 'Prix unitaire',
+    p.quantite_stock AS 'Quantité',
+    p.seuil_reapprovisionnement AS 'Seuil',
+    CASE 
+        WHEN p.quantite_stock <= p.seuil_reapprovisionnement THEN '⚠️'
+        WHEN p.quantite_stock <= p.seuil_reapprovisionnement * 1.5 THEN '⚠'
+        ELSE ''
+    END AS 'Alerte',
+    CASE
+        WHEN p.quantite_stock = 0 THEN 'Rupture'
+        WHEN p.quantite_stock <= p.seuil_reapprovisionnement THEN 'Critique'
+        WHEN p.quantite_stock <= p.seuil_reapprovisionnement * 1.5 THEN 'Faible'
+        ELSE 'Normal'
+    END AS 'Statut'
+FROM 
+    produits p
+ORDER BY 
+    CASE
+        WHEN p.quantite_stock <= p.seuil_reapprovisionnement THEN 1
+        WHEN p.quantite_stock <= p.seuil_reapprovisionnement * 1.5 THEN 2
+        ELSE 3
+    END,
+    p.categorie,
+    p.nom;
+
+-- Statistiques sur l'inventaire
+SELECT 
+    'Nombre total de produits' AS 'Statistique',
+    COUNT(*) AS 'Valeur'
+FROM 
+    produits
+UNION
+SELECT 
+    'Produits en rupture de stock',
+    COUNT(*) 
+FROM 
+    produits 
+WHERE 
+    quantite_stock = 0
+UNION
+SELECT 
+    'Produits en alerte critique',
+    COUNT(*) 
+FROM 
+    produits 
+WHERE 
+    quantite_stock <= seuil_reapprovisionnement AND quantite_stock > 0
+UNION
+SELECT 
+    'Produits en stock faible',
+    COUNT(*) 
+FROM 
+    produits 
+WHERE 
+    quantite_stock <= seuil_reapprovisionnement * 1.5 AND quantite_stock > seuil_reapprovisionnement
+UNION
+SELECT 
+    'Valeur totale de l\'inventaire',
+    FORMAT(SUM(prix_unitaire * quantite_stock), 0)
+FROM 
+    produits;
+
+-- Produits nécessitant un réapprovisionnement immédiat
+SELECT 
+    reference AS 'Référence',
+    nom AS 'Produit à commander',
+    categorie AS 'Catégorie',
+    quantite_stock AS 'Stock actuel',
+    seuil_reapprovisionnement AS 'Seuil',
+    (seuil_reapprovisionnement * 2) - quantite_stock AS 'Quantité à commander'
+FROM 
+    produits
+WHERE 
+    quantite_stock <= seuil_reapprovisionnement
+ORDER BY 
+    quantite_stock ASC,
+    categorie,
+    nom;
+
+-- Top 10 des produits les plus chers
+SELECT 
+    reference AS 'Référence',
+    nom AS 'Produit',
+    categorie AS 'Catégorie',
+    CONCAT(FORMAT(prix_unitaire, 0), ' FCFA') AS 'Prix unitaire'
+FROM 
+    produits
+ORDER BY 
+    prix_unitaire DESC
+LIMIT 10;
+
+-- Analyse par catégorie
+SELECT 
+    categorie AS 'Catégorie',
+    COUNT(*) AS 'Nombre de produits',
+    FORMAT(SUM(quantite_stock), 0) AS 'Quantité totale',
+    CONCAT(FORMAT(SUM(prix_unitaire * quantite_stock), 0), ' FCFA') AS 'Valeur du stock',
+    CONCAT(FORMAT(AVG(prix_unitaire), 0), ' FCFA') AS 'Prix moyen'
+FROM 
+    produits
+GROUP BY 
+    categorie
+ORDER BY 
+    SUM(prix_unitaire * quantite_stock) DESC;
